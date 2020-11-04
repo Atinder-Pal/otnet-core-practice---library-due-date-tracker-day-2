@@ -1,0 +1,27 @@
+﻿
+
+@*@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+@if (ViewBag.bookDetails != null)
+{
+    <p>
+        "You checked out @(ViewBag.bookDetails.Title) on @(ViewBag.bookDetails.CheckedOutDate.ToShortDateString()), and the due date is @(ViewBag.bookDetails.DueDate.ToShortDateString())."
+    </p>
+    <p>
+        "Returned date is: @((ViewBag.bookDetails.ReturnedDate == null ? "Not Returned" : ((DateTime)ViewBag.bookDetails.ReturnedDate).ToLongDateString()))."
+    </p>
+
+    <br />
+    <a class="btn btn-success" href="/Book/Return?id=@(ViewBag.bookDetails.ID)">Return Book</a>
+
+    <a class="btn btn-primary" href="/Book/Extend?id=@(ViewBag.bookDetails.ID)">Extend Due Date</a>
+
+    <a class="btn btn-danger" href="/Book/Delete?id=@(ViewBag.bookDetails.ID)">Delete Book</a>
+}
+@if (ViewBag.errorMessage != null)
+{
+    @(ViewBag.errorMessage)
+}*@

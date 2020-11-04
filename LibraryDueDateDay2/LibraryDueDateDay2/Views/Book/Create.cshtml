@@ -1,0 +1,31 @@
+﻿
+@*@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+<section>
+    <h2>Create a Book</h2>
+    <form action="/Book/Create" method="get">
+        <label for="id">ID:</label>
+        <input id="id" type="number" name="id" value="" required /><br />
+        <label for="title">Title:</label>
+        <input id="title" type="text" name="title" value="" required /><br />
+        <label for="author">Author:</label>
+        <input id="author" type="text" name="author" value="" required /><br />
+        <label for="publicationDate">Publication Date</label>
+        <input id="publicationDate" type="date" name="publicationDate" value="" required /><br />
+        <label for="checkedOutDate">CheckedOut Date:</label>
+        <input id="checkedOutDate" type="date" name="checkedOutDate" value="" required /><br />
+        <input type="submit" value="Submit" />
+    </form>
+</section>
+
+<section>
+    @if (ViewBag.addMessage != null)
+    {
+        <p>@(ViewBag.addMessage)</p>
+    }
+</section>*@
+
+
