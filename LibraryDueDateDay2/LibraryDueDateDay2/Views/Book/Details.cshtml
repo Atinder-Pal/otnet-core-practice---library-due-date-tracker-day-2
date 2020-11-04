@@ -1,17 +1,18 @@
 ﻿
 
-@*@{
+@{
     ViewData["Title"] = "Details";
 }
 
 <h1>Details</h1>
 @if (ViewBag.bookDetails != null)
 {
+<p>
+    @(ViewBag.bookDetails.Title)
+    @*"You checked out @(ViewBag.bookDetails.Title) on @(ViewBag.bookDetails.Borrows.First().CheckedOutDate.ToShortDateString()), and the due date is @(ViewBag.bookDetails.DueDate.ToShortDateString())."*@
+</p>
     <p>
-        "You checked out @(ViewBag.bookDetails.Title) on @(ViewBag.bookDetails.CheckedOutDate.ToShortDateString()), and the due date is @(ViewBag.bookDetails.DueDate.ToShortDateString())."
-    </p>
-    <p>
-        "Returned date is: @((ViewBag.bookDetails.ReturnedDate == null ? "Not Returned" : ((DateTime)ViewBag.bookDetails.ReturnedDate).ToLongDateString()))."
+        @*"Returned date is: @((ViewBag.bookDetails.Borrows.First().ReturnedDate == null ? "Not Returned" : ((DateTime)ViewBag.bookDetails.Borrows.First().ReturnedDate).ToLongDateString()))."*@
     </p>
 
     <br />
@@ -24,4 +25,4 @@
 @if (ViewBag.errorMessage != null)
 {
     @(ViewBag.errorMessage)
-}*@
+}

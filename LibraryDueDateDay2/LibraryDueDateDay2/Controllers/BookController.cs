@@ -43,7 +43,7 @@ namespace LibraryDueDateDay2.Controllers
 
         public IActionResult Details(string id)
         {
-            if (string.IsNullOrEmpty(id.Trim()) || string.IsNullOrWhiteSpace(id.Trim()) || Books.Any(x => x.ID == int.Parse(id.Trim())) == false)
+            if (string.IsNullOrEmpty(id.Trim()) || string.IsNullOrWhiteSpace(id.Trim()))
             {
                 ViewBag.errorMessage = "No book selected.";
             }

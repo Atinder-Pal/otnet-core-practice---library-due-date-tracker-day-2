@@ -11,23 +11,16 @@
             <th>ID</th>
             <th>Title</th>
             <th>Author</th>
-            <th>Published</th>
-            <th>Checked Out</th>
-            <th>Due Date</th>
-            <th>Returned</th>
+            <th>Published</th>          
         </tr>
         @foreach (Book book in ViewBag.list)
         {
-            <tr>
-                <td>@(book.ID)</td>
-                <td><a href="/Book/Details?id=@(book.ID)">@(book.Title)</a></td>
-                <td>@(book.Author.Name)</td>
-                <td>@(book.PublicationDate.ToShortDateString())</td>
-                <td>@(book.Borrows.First().CheckedOutDate.ToShortDateString())</td>
-                <td>@(book.Borrows.First().DueDate.ToShortDateString())</td>
-
-                <td>@((book.Borrows.First().ReturnedDate == null ? "Not Returned" : ((DateTime)book.Borrows.First().ReturnedDate).ToShortDateString()))</td>
-            </tr>
+    <tr>
+        <td>@(book.ID)</td>
+        <td><a href="/Book/Details?id=@(book.ID)">@(book.Title)</a></td>
+        <td>@(book.Author.Name)</td>
+        <td>@(book.PublicationDate.ToShortDateString())</td>       
+    </tr>
         }
 
     </table>
