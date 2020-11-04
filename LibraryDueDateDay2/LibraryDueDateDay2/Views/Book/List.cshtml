@@ -1,5 +1,5 @@
 ﻿
-@*@{
+@{
     ViewData["Title"] = "List";
 }
 
@@ -21,12 +21,12 @@
             <tr>
                 <td>@(book.ID)</td>
                 <td><a href="/Book/Details?id=@(book.ID)">@(book.Title)</a></td>
-                <td>@(book.Author)</td>
+                <td>@(book.Author.Name)</td>
                 <td>@(book.PublicationDate.ToShortDateString())</td>
-                <td>@(book.CheckedOutDate.ToShortDateString())</td>
-                <td>@(book.DueDate.ToShortDateString())</td>
+                <td>@(book.Borrows.First().CheckedOutDate.ToShortDateString())</td>
+                <td>@(book.Borrows.First().DueDate.ToShortDateString())</td>
 
-                <td>@((book.ReturnedDate == null ? "Not Returned" : ((DateTime)book.ReturnedDate).ToShortDateString()))</td>
+                <td>@((book.Borrows.First().ReturnedDate == null ? "Not Returned" : ((DateTime)book.Borrows.First().ReturnedDate).ToShortDateString()))</td>
             </tr>
         }
 
@@ -35,5 +35,5 @@
 else
 {
     <p>No books have been checked out.</p>
-}*@
+}
 

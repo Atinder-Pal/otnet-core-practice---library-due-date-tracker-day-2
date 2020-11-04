@@ -38,7 +38,5 @@ namespace LibraryDueDateDay2.Models
 
         [InverseProperty(nameof(Models.Borrow.Book))]
         public virtual ICollection<Borrow> Borrows { get; set; }
-
-
     }
 }

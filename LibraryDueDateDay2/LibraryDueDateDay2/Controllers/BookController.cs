@@ -37,7 +37,7 @@ namespace LibraryDueDateDay2.Controllers
 
         public IActionResult List()
         {
-            ViewBag.list = Books;
+            ViewBag.list = GetBooks();
             return View();
         }
 
