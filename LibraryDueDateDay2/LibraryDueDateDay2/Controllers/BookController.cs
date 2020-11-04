@@ -24,12 +24,12 @@ namespace LibraryDueDateDay2.Controllers
                 try
                 {
                     Book createdBook = CreateBook(title, author, publicationDate);
-                    //======Remember to create a borrow later
-                    ViewBag.addMessage = $"You have successfully checked out {createdBook.Title} until .";
+                    
+                    ViewBag.addMessage = $"You have successfully created {createdBook.Title}.";
                 }
                 catch (Exception e)
                 {
-                    ViewBag.addMessage = $"Unable to check out book: {e.Message}";
+                    ViewBag.addMessage = $"Unable to create book: {e.Message}";
                 }
             }
             return View();
@@ -108,7 +108,7 @@ namespace LibraryDueDateDay2.Controllers
             using (LibraryContext context = new LibraryContext())
             {
                 return context.Books.Where(book => book.ID == int.Parse(id))
-                    .Include(book => book.Borrows).SingleOrDefault();
+                    .Include(book => book.Borrows).Include(x => x.Author).SingleOrDefault();
             }
         }
         public void ExtendDueDateForBookByID(string id)
@@ -134,7 +134,7 @@ namespace LibraryDueDateDay2.Controllers
         {           
             using (LibraryContext context = new LibraryContext())
             {
-                return context.Books.Include(book => book.Borrows).ToList();
+                return context.Books.Include(book => book.Borrows).Include(x => x.Author).ToList();
             }           
         }
 
@@ -150,7 +150,7 @@ namespace LibraryDueDateDay2.Controllers
                 List<Book> overdueBooks = context.Books.Where(book => overdueBookIDs.Contains(book.ID)).ToList();
                 //End Citation
                 */
-                List<Book> overdueBooks = context.Borrows.Where(borrow => borrow.DueDate < DateTime.Today && borrow.ReturnedDate == null).Select(borrow => borrow.Book).Include(book => book.Borrows).ToList();
+                List<Book> overdueBooks = context.Borrows.Where(borrow => borrow.DueDate < DateTime.Today && borrow.ReturnedDate == null).Select(borrow => borrow.Book).Include(book => book.Borrows).Include(x => x.Author).ToList();
                 return overdueBooks;
             }
         }
