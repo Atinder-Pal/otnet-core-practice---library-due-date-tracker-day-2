@@ -1,5 +1,5 @@
 ﻿
-@*@{
+@{
     ViewData["Title"] = "Create";
 }
 
@@ -7,16 +7,19 @@
 <section>
     <h2>Create a Book</h2>
     <form action="/Book/Create" method="get">
-        <label for="id">ID:</label>
-        <input id="id" type="number" name="id" value="" required /><br />
         <label for="title">Title:</label>
         <input id="title" type="text" name="title" value="" required /><br />
-        <label for="author">Author:</label>
-        <input id="author" type="text" name="author" value="" required /><br />
+        <label for="authors">Select an Author:</label>
+
+        <select name="authors" id="authors">
+        @foreach(Author author in ViewBag.authors)
+        {
+            <option value="@(author.ID)">@(author.Name)</option>
+        }           
+        </select>
+        
         <label for="publicationDate">Publication Date</label>
         <input id="publicationDate" type="date" name="publicationDate" value="" required /><br />
-        <label for="checkedOutDate">CheckedOut Date:</label>
-        <input id="checkedOutDate" type="date" name="checkedOutDate" value="" required /><br />
         <input type="submit" value="Submit" />
     </form>
 </section>
@@ -26,6 +29,6 @@
     {
         <p>@(ViewBag.addMessage)</p>
     }
-</section>*@
+</section>
 
 

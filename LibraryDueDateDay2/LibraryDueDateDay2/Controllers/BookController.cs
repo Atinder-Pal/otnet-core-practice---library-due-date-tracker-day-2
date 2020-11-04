@@ -16,14 +16,16 @@ namespace LibraryDueDateDay2.Controllers
             return RedirectToAction("List");
         }
 
-        public IActionResult Create(string id, string title, string author, string publicationDate, string checkedOutDate)
+        public IActionResult Create(string title, string author, string publicationDate)
         {
-            if (id != null || title != null || author != null || publicationDate != null || checkedOutDate != null)
-            {
+            ViewBag.authors = AuthorController.GetAuthors();
+            if (title != null || author != null || publicationDate != null)
+            {               
                 try
                 {
-                    Book createdBook = CreateBook(id, title, author, publicationDate, checkedOutDate);
-                    ViewBag.addMessage = $"You have successfully checked out {createdBook.Title} until {createdBook.DueDate}.";
+                    Book createdBook = CreateBook(title, author, publicationDate);
+                    //======Remember to create a borrow later
+                    ViewBag.addMessage = $"You have successfully checked out {createdBook.Title} until .";
                 }
                 catch (Exception e)
                 {

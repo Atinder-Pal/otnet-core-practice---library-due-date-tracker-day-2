@@ -151,7 +151,7 @@ namespace LibraryDueDateDay2.Controllers
 
         //=================================================
         //GetAuthors() method
-        public List<Author> GetAuthors()
+        public static List<Author> GetAuthors()
         {
             using (LibraryContext context = new LibraryContext())
             {
