@@ -77,19 +77,29 @@ namespace LibraryDueDateDay2.Controllers
             return RedirectToAction("List");
         }
 
-        public Book CreateBook(string id, string title, string author, string publicationDate, string checkedOutDate)
+        public Book CreateBook(string title, string authorID, string publicationDate)
         {
-            int parsedID = int.Parse(id);
-            if (!Books.Exists(x => x.ID == parsedID))
+            using (LibraryContext context = new LibraryContext())
             {
-                var newBook = new Book(parsedID, title.Trim(), author.Trim(), DateTime.Parse(publicationDate), DateTime.Parse(checkedOutDate));
-                Books.Add(newBook);
-                return newBook;
-            }
-            else
-            {
-                throw new Exception("ID already exists. Try adding it with a new ID");
-            }
+                if (! context.Books.Any(x => x.Title == title))
+                {
+                    Book newBook = new Book()
+                    {
+                        AuthorID = int.Parse(authorID),
+                        Title = title.Trim(),
+                        PublicationDate = DateTime.Parse(publicationDate)
+                    };
+
+                    context.Books.Add(newBook);
+                    context.SaveChanges();
+
+                    return newBook;
+                }
+                else
+                {
+                    throw new Exception("Book already exists.");
+                }
+            }                
         }
         public Book GetBookByID(string id)
         {
