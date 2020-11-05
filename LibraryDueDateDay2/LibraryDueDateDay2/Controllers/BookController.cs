@@ -78,6 +78,11 @@ namespace LibraryDueDateDay2.Controllers
             DeleteBookByID(id);
             return RedirectToAction("List");
         }
+        public IActionResult Borrow(string id)
+        {
+            CreateBorrow(id);
+            return RedirectToAction("List");
+        }
 
         public Book CreateBook(string title, string authorID, string publicationDate)
         {
@@ -115,6 +120,10 @@ namespace LibraryDueDateDay2.Controllers
         public void ReturnBookByID(string id)
         {
             BorrowController.ReturnBorrowByID(id);
+        }
+        public void CreateBorrow(string id)
+        {
+            BorrowController.CreateBorrow(id);
         }
 
         public void DeleteBookByID(string id)

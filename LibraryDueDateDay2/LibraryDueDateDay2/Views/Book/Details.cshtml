@@ -6,17 +6,17 @@
 
 <h1>Details</h1>
 @if (ViewBag.bookDetails != null)
-{    
+{
     Book book = ViewBag.bookDetails;
-    
+
 
     @if (book.Borrows.Any())
     {
         <p>
-            You checked out @(book.Title) on @(((DateTime)book.Borrows.First().CheckedOutDate).ToLongDateString()), and the due date is @(((DateTime)book.Borrows.First().DueDate).ToLongDateString()).
+            You checked out @(book.Title) on @(((DateTime)book.Borrows.Last().CheckedOutDate).ToLongDateString()), and the due date is @(((DateTime)book.Borrows.Last().DueDate).ToLongDateString()).
         </p>
         <p>
-            Returned date is: @((book.Borrows.First().ReturnedDate == null ? "Not Returned" : ((DateTime)book.Borrows.First().ReturnedDate).ToLongDateString())).
+            Returned date is: @((book.Borrows.Last().ReturnedDate == null ? "Not Returned" : ((DateTime)book.Borrows.Last().ReturnedDate).ToLongDateString())).
         </p>
 
         <a class="btn btn-success" href="/Book/Return?id=@(book.ID)">Return Book</a>
@@ -31,6 +31,10 @@
         <p>This book has never been checked out!</p>
     }
 
+    @if (book.Borrows.Last().ReturnedDate != null || !book.Borrows.Any())
+    {
+        <a class="btn btn-primary" href="/Book/Borrow?id=@(book.ID)">Borrow</a>
+    }
 
 }
 @if (ViewBag.errorMessage != null)

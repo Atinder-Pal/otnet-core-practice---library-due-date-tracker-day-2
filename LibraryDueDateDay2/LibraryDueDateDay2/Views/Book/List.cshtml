@@ -25,9 +25,9 @@
         <td>@(book.PublicationDate.ToShortDateString())</td>
         @if (book.Borrows.Any())
         {
-            <td>@(((DateTime)book.Borrows.First().CheckedOutDate).ToShortDateString())</td>
-            <td>@(((DateTime)book.Borrows.First().DueDate).ToShortDateString())</td>
-            <td>@((book.Borrows.First().ReturnedDate == null ? "Not Returned" : ((DateTime)book.Borrows.First().ReturnedDate).ToShortDateString()))</td>
+            <td>@(((DateTime)book.Borrows.Last().CheckedOutDate).ToShortDateString())</td>
+            <td>@(((DateTime)book.Borrows.Last().DueDate).ToShortDateString())</td>
+            <td>@((book.Borrows.Last().ReturnedDate == null ? "Not Returned" : ((DateTime)book.Borrows.Last().ReturnedDate).ToShortDateString()))</td>
         }
         else
         {
