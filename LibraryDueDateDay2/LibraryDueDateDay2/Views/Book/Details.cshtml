@@ -24,13 +24,12 @@
         <a class="btn btn-success" href="/Book/Return?id=@(book.ID)">Return Book</a>
 
         <a class="btn btn-primary" href="/Book/Extend?id=@(book.ID)">Extend Due Date</a>
-
-        <a class="btn btn-danger" href="/Book/Delete?id=@(book.ID)">Delete Book</a>
     }
     else
     {
         <p>This book has never been checked out!</p>
     }
+    <a class="btn btn-danger" href="/Book/Delete?id=@(book.ID)">Delete Book</a>
 
     @if (!book.Borrows.Any() || book.Borrows.Last().ReturnedDate != null)
     {

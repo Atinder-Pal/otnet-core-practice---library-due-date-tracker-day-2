@@ -19,12 +19,12 @@ namespace LibraryDueDateDay2.Controllers
         public IActionResult Create(string title, string authorID, string publicationDate)
         {
             ViewBag.authors = AuthorController.GetAuthors();
-            if (title != null && authorID != null && publicationDate != null)
-            {               
+            if (Request.Method == "POST")
+            {
                 try
                 {
                     Book createdBook = CreateBook(title, authorID, publicationDate);
-                    
+
                     ViewBag.addMessage = $"You have successfully created {createdBook.Title}.";
                 }
                 catch (Exception e)
@@ -32,8 +32,8 @@ namespace LibraryDueDateDay2.Controllers
                     ViewBag.authorID = authorID;
                     ViewBag.bookTitle = title;
                     ViewBag.addMessage = $"Unable to create book: {e.Message}";
-                }
-            }
+                }                
+            }                
             return View();
         }
 
@@ -89,7 +89,49 @@ namespace LibraryDueDateDay2.Controllers
 
         public Book CreateBook(string title, string authorID, string publicationDate)
         {
+            int parsedAuthorID;
+            DateTime parsedPublicationdate;
+
+            // Trim the values so we don't need to do it a bunch of times later.
+            authorID = authorID != null ? authorID.Trim() : null;
+            title = title != null ? title.Trim() : null;
+            publicationDate = publicationDate != null ? publicationDate.Trim() : null;
+            // Check for individual validation cases and throw an exception if they fail.
+
+            // No value for authorID.
+            if (string.IsNullOrWhiteSpace(authorID) || string.IsNullOrEmpty(authorID))
+            {
+                throw new Exception("AuthorID Not Provided");
+            }
+
+            // Author ID fails parse.
+            if (!int.TryParse(authorID, out parsedAuthorID))
+            {
+                throw new Exception("Author ID Not Valid");
+            }
+
+            // No value for title.
+            if (string.IsNullOrWhiteSpace(title) || string.IsNullOrEmpty(title))
+            {
+                throw new Exception("Title Not Provided");
+            }
+
+            if (string.IsNullOrWhiteSpace(publicationDate) || string.IsNullOrEmpty(publicationDate))
+            {
+                throw new Exception("Publication Date  Not Provided");
+            }
+
+            // publicationDate fails parse.
+            if (!DateTime.TryParse(publicationDate, out parsedPublicationdate))
+            {
+                throw new Exception("Publication Date Not Valid");
+            }           
             using LibraryContext context = new LibraryContext();
+
+            if (!context.Authors.Any(x => x.ID == parsedAuthorID))
+            {
+                throw new Exception("Author Does Not Exist in DB");
+            }
             if (!context.Books.Any(x => x.Title == title))
             {
                 Book newBook = new Book()
