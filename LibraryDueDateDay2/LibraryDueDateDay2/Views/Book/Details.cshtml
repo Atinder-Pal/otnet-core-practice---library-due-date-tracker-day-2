@@ -5,7 +5,7 @@
 }
 
 <h1>Details</h1>
-@if (ViewBag.bookDetails != null)
+@if (ViewBag.bookDetails != null && ViewBag.bookDetails.Count > 0)
 {
     Book book = ViewBag.bookDetails;
 
