@@ -149,24 +149,24 @@ namespace LibraryDueDateDay2.Models
                     {
                         ID = -1,
                         BookID = -3,
-                        CheckedOutDate = new DateTime(2020,10,02),
-                        DueDate = new DateTime(2020, 10, 16),
-                        ReturnedDate = new DateTime(2020, 10, 15)
+                        CheckedOutDate = new DateTime(2019,12,25),
+                        DueDate = new DateTime(2020, 01, 08),
+                        ReturnedDate = new DateTime(2020, 01, 07)
                     },
                     new Borrow()
                     {
                         ID = -2,
                         BookID = -2,
-                        CheckedOutDate = new DateTime(2020, 10, 03),
-                        DueDate = new DateTime(2020, 10, 17),
-                        ReturnedDate = new DateTime(2020, 10, 14)
+                        CheckedOutDate = new DateTime(2019, 12, 25),
+                        DueDate = new DateTime(2020, 01, 15),
+                        ReturnedDate = new DateTime(2020, 01, 15)
                     },
                    new Borrow()
                    {
                        ID = -3,
                        BookID = -1,
-                       CheckedOutDate = new DateTime(2020, 10, 04),
-                       DueDate = new DateTime(2020, 10, 18)                       
+                       CheckedOutDate = new DateTime(2019, 12, 25),
+                       DueDate = new DateTime(2020, 01, 08)                       
                    },
                    new Borrow()
                    {
