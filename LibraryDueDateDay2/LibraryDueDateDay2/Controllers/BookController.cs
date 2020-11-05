@@ -16,14 +16,14 @@ namespace LibraryDueDateDay2.Controllers
             return RedirectToAction("List");
         }
 
-        public IActionResult Create(string title, string author, string publicationDate)
+        public IActionResult Create(string title, string authors, string publicationDate)
         {
             ViewBag.authors = AuthorController.GetAuthors();
-            if (title != null || author != null || publicationDate != null)
+            if (title != null && authors != null && publicationDate != null)
             {               
                 try
                 {
-                    Book createdBook = CreateBook(title, author, publicationDate);
+                    Book createdBook = CreateBook(title, authors, publicationDate);
                     
                     ViewBag.addMessage = $"You have successfully created {createdBook.Title}.";
                 }
