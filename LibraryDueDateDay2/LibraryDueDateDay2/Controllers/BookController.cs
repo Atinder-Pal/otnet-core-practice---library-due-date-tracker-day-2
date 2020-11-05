@@ -81,35 +81,31 @@ namespace LibraryDueDateDay2.Controllers
 
         public Book CreateBook(string title, string authorID, string publicationDate)
         {
-            using (LibraryContext context = new LibraryContext())
+            using LibraryContext context = new LibraryContext();
+            if (!context.Books.Any(x => x.Title == title))
             {
-                if (! context.Books.Any(x => x.Title == title))
+                Book newBook = new Book()
                 {
-                    Book newBook = new Book()
-                    {
-                        AuthorID = int.Parse(authorID),
-                        Title = title.Trim(),
-                        PublicationDate = DateTime.Parse(publicationDate)
-                    };
+                    AuthorID = int.Parse(authorID),
+                    Title = title.Trim(),
+                    PublicationDate = DateTime.Parse(publicationDate)
+                };
 
-                    context.Books.Add(newBook);
-                    context.SaveChanges();
+                context.Books.Add(newBook);
+                context.SaveChanges();
 
-                    return newBook;
-                }
-                else
-                {
-                    throw new Exception("Book already exists.");
-                }
-            }                
+                return newBook;
+            }
+            else
+            {
+                throw new Exception("Book already exists.");
+            }
         }
         public Book GetBookByID(string id)
         {
-            using (LibraryContext context = new LibraryContext())
-            {
-                return context.Books.Where(book => book.ID == int.Parse(id))
-                    .Include(book => book.Borrows).Include(x => x.Author).SingleOrDefault();
-            }
+            using LibraryContext context = new LibraryContext();
+            return context.Books.Where(book => book.ID == int.Parse(id))
+                .Include(book => book.Borrows).Include(x => x.Author).SingleOrDefault();
         }
         public void ExtendDueDateForBookByID(string id)
         {
@@ -123,36 +119,30 @@ namespace LibraryDueDateDay2.Controllers
 
         public void DeleteBookByID(string id)
         {
-            using (LibraryContext context = new LibraryContext())
-            {
-                context.Books.Remove(context.Books.Where(book => book.ID == int.Parse(id)).SingleOrDefault());
-                context.SaveChanges();
-            }
+            using LibraryContext context = new LibraryContext();
+            context.Books.Remove(context.Books.Where(book => book.ID == int.Parse(id)).SingleOrDefault());
+            context.SaveChanges();
         }
 
         public List<Book> GetBooks()
-        {           
-            using (LibraryContext context = new LibraryContext())
-            {
-                return context.Books.Include(book => book.Borrows).Include(x => x.Author).ToList();
-            }           
+        {
+            using LibraryContext context = new LibraryContext();
+            return context.Books.Include(book => book.Borrows).Include(x => x.Author).ToList();
         }
 
         public List<Book> GetOverdueBooks()
         {
-            using (LibraryContext context = new LibraryContext())
-            {
-                /*
-                List<int> overdueBookIDs = context.Borrows.Where(borrow => borrow.DueDate < DateTime.Today && borrow.ReturnedDate == null).Select(x => x.BookID).ToList();
-                //Citation
-                //https://stackoverflow.com/questions/14257360/linq-select-objects-in-list-where-exists-in-a-b-c/14257379
-                //Referenced code from above source to check if element in the list
-                List<Book> overdueBooks = context.Books.Where(book => overdueBookIDs.Contains(book.ID)).ToList();
-                //End Citation
-                */
-                List<Book> overdueBooks = context.Borrows.Where(borrow => borrow.DueDate < DateTime.Today && borrow.ReturnedDate == null).Select(borrow => borrow.Book).Include(book => book.Borrows).Include(x => x.Author).ToList();
-                return overdueBooks;
-            }
+            using LibraryContext context = new LibraryContext();
+            /*
+            List<int> overdueBookIDs = context.Borrows.Where(borrow => borrow.DueDate < DateTime.Today && borrow.ReturnedDate == null).Select(x => x.BookID).ToList();
+            //Citation
+            //https://stackoverflow.com/questions/14257360/linq-select-objects-in-list-where-exists-in-a-b-c/14257379
+            //Referenced code from above source to check if element in the list
+            List<Book> overdueBooks = context.Books.Where(book => overdueBookIDs.Contains(book.ID)).ToList();
+            //End Citation
+            */
+            List<Book> overdueBooks = context.Borrows.Where(borrow => borrow.DueDate < DateTime.Today && borrow.ReturnedDate == null).Select(borrow => borrow.Book).Include(book => book.Borrows).Include(x => x.Author).ToList();
+            return overdueBooks;
         }
     }
 }

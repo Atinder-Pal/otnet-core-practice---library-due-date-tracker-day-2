@@ -6,21 +6,32 @@
 
 <h1>Details</h1>
 @if (ViewBag.bookDetails != null)
-{
-<p>
-    @(ViewBag.bookDetails.Title)
-    @*"You checked out @(ViewBag.bookDetails.Title) on @(ViewBag.bookDetails.Borrows.First().CheckedOutDate.ToShortDateString()), and the due date is @(ViewBag.bookDetails.DueDate.ToShortDateString())."*@
-</p>
-    <p>
-        @*"Returned date is: @((ViewBag.bookDetails.Borrows.First().ReturnedDate == null ? "Not Returned" : ((DateTime)ViewBag.bookDetails.Borrows.First().ReturnedDate).ToLongDateString()))."*@
-    </p>
+{    
+    Book book = ViewBag.bookDetails;
+    
 
-    <br />
-    <a class="btn btn-success" href="/Book/Return?id=@(ViewBag.bookDetails.ID)">Return Book</a>
+    @if (book.Borrows.Any())
+    {
+        <p>
+            You checked out @(book.Title) on @(((DateTime)book.Borrows.First().CheckedOutDate).ToLongDateString()), and the due date is @(((DateTime)book.Borrows.First().DueDate).ToLongDateString()).
+        </p>
+        <p>
+            Returned date is: @((book.Borrows.First().ReturnedDate == null ? "Not Returned" : ((DateTime)book.Borrows.First().ReturnedDate).ToLongDateString())).
+        </p>
 
-    <a class="btn btn-primary" href="/Book/Extend?id=@(ViewBag.bookDetails.ID)">Extend Due Date</a>
+        <a class="btn btn-success" href="/Book/Return?id=@(book.ID)">Return Book</a>
 
-    <a class="btn btn-danger" href="/Book/Delete?id=@(ViewBag.bookDetails.ID)">Delete Book</a>
+        <a class="btn btn-primary" href="/Book/Extend?id=@(book.ID)">Extend Due Date</a>
+
+        <a class="btn btn-danger" href="/Book/Delete?id=@(book.ID)">Delete Book</a>
+    }
+    else
+    {
+        <p> The Book "@(book.Title)" is written by "@(book.Author.Name)" and was published on @(book.PublicationDate.ToLongDateString()).</p>
+        <p>This book has never been checked out!</p>
+    }
+
+
 }
 @if (ViewBag.errorMessage != null)
 {
