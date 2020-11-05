@@ -4,7 +4,7 @@
 }
 
 <h1>List</h1>
-@if (ViewBag.list.Count > 0)
+@if (ViewBag.list != null && ViewBag.list.Count > 0)
 {
     <table class="table">
         <tr>
@@ -45,7 +45,7 @@ else
 }
 
 <h1>OverDue Books</h1>
-@if (ViewBag.overdueBooks.Count > 0)
+@if (ViewBag.overdueBooks != null && ViewBag.overdueBooks.Count > 0)
 {
     @foreach (Book overdueBook in ViewBag.overdueBooks)
     {
