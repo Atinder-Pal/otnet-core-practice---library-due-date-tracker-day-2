@@ -38,6 +38,7 @@ namespace LibraryDueDateDay2.Controllers
         public IActionResult List()
         {
             ViewBag.list = GetBooks();
+            ViewBag.overdueBooks = GetOverdueBooks();
             return View();
         }
 
@@ -150,7 +151,7 @@ namespace LibraryDueDateDay2.Controllers
             List<Book> overdueBooks = context.Books.Where(book => overdueBookIDs.Contains(book.ID)).ToList();
             //End Citation
             */
-            List<Book> overdueBooks = context.Borrows.Where(borrow => borrow.DueDate < DateTime.Today && borrow.ReturnedDate == null).Select(borrow => borrow.Book).Include(book => book.Borrows).Include(x => x.Author).ToList();
+            List<Book> overdueBooks = context.Borrows.Where(borrow => borrow.DueDate < DateTime.Today && borrow.ReturnedDate == null).Select(borrow => borrow.Book).ToList();
             return overdueBooks;
         }
     }
