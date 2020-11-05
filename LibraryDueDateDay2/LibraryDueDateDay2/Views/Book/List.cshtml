@@ -23,19 +23,20 @@
         <td><a href="/Book/Details?id=@(book.ID)">@(book.Title)</a></td>
         <td>@(book.Author.Name)</td>
         <td>@(book.PublicationDate.ToShortDateString())</td>
-        <td>@(book.Borrows.Any() ? ((DateTime)book.Borrows.First().CheckedOutDate).ToShortDateString() : "Not Checked Out")</td>
-        <td>@(book.Borrows.Any() ? ((DateTime)book.Borrows.First().DueDate).ToShortDateString() : "Not Checked Out")</td>
-        @if (book.Borrows.Any() )
+        @if (book.Borrows.Any())
         {
+            <td>@(((DateTime)book.Borrows.First().CheckedOutDate).ToShortDateString())</td>
+            <td>@(((DateTime)book.Borrows.First().DueDate).ToShortDateString())</td>
             <td>@((book.Borrows.First().ReturnedDate == null ? "Not Returned" : ((DateTime)book.Borrows.First().ReturnedDate).ToShortDateString()))</td>
         }
         else
         {
             <td>Not Checked Out</td>
+            <td>Not Checked Out</td>
+            <td>Not Checked Out</td>
         }
     </tr>
         }
-
     </table>
 }
 else
