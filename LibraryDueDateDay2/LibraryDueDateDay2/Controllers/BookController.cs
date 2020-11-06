@@ -89,67 +89,83 @@ namespace LibraryDueDateDay2.Controllers
 
         public Book CreateBook(string title, string authorID, string publicationDate)
         {
-            int parsedAuthorID;
+            int parsedAuthorID =0;
             DateTime parsedPublicationdate;
 
             // Trim the values so we don't need to do it a bunch of times later.
-            authorID = authorID != null ? authorID.Trim() : null;
-            title = title != null ? title.Trim() : null;
-            publicationDate = publicationDate != null ? publicationDate.Trim() : null;
-            // Check for individual validation cases and throw an exception if they fail.
+            authorID = !(string.IsNullOrWhiteSpace(authorID) || string.IsNullOrEmpty(authorID)) ? authorID.Trim() : null;
+            title = !(string.IsNullOrWhiteSpace(title) || string.IsNullOrEmpty(title)) ? title.Trim() : null;
+            publicationDate = !(string.IsNullOrWhiteSpace(publicationDate) || string.IsNullOrEmpty(publicationDate)) ? publicationDate.Trim() : null;
 
+            using LibraryContext context = new LibraryContext();
             // No value for authorID.
-            if (string.IsNullOrWhiteSpace(authorID) || string.IsNullOrEmpty(authorID))
+            if (string.IsNullOrWhiteSpace(authorID))
             {
                 throw new Exception("AuthorID Not Provided");
             }
-
-            // Author ID fails parse.
-            if (!int.TryParse(authorID, out parsedAuthorID))
+            else
             {
-                throw new Exception("Author ID Not Valid");
+                // Author ID fails parse.
+                if (!int.TryParse(authorID, out parsedAuthorID))
+                {
+                    throw new Exception("Author ID Not Valid");
+                }
+                else
+                {
+                    if (!context.Authors.Any(x => x.ID == parsedAuthorID))
+                    {
+                        throw new Exception("Author Does Not Exist");
+                    }
+                }
             }
-
+           
             // No value for title.
-            if (string.IsNullOrWhiteSpace(title) || string.IsNullOrEmpty(title))
+            if (string.IsNullOrWhiteSpace(title))
             {
                 throw new Exception("Title Not Provided");
             }
-
-            if (string.IsNullOrWhiteSpace(publicationDate) || string.IsNullOrEmpty(publicationDate))
+            else
+            {
+                if(title.Length >100)
+                {
+                    throw new Exception("Title length exceeds 100 characters");
+                }
+                else
+                {
+                    List<int> authorList = context.Books.Where(x => x.Title.ToLower() == title.ToLower()).Select(x => x.AuthorID).ToList();
+                    if(authorList.Any() && authorList.Contains(parsedAuthorID))
+                    {
+                        throw new Exception($"The Title already exists for this Author.");
+                    }
+                }
+            }
+            if (string.IsNullOrWhiteSpace(publicationDate))
             {
                 throw new Exception("Publication Date  Not Provided");
             }
-
-            // publicationDate fails parse.
-            if (!DateTime.TryParse(publicationDate, out parsedPublicationdate))
-            {
-                throw new Exception("Publication Date Not Valid");
-            }           
-            using LibraryContext context = new LibraryContext();
-
-            if (!context.Authors.Any(x => x.ID == parsedAuthorID))
-            {
-                throw new Exception("Author Does Not Exist in DB");
-            }
-            if (!context.Books.Any(x => x.Title == title))
-            {
-                Book newBook = new Book()
-                {
-                    AuthorID = int.Parse(authorID),
-                    Title = title.Trim(),
-                    PublicationDate = DateTime.Parse(publicationDate)
-                };
-
-                context.Books.Add(newBook);
-                context.SaveChanges();
-
-                return newBook;
-            }
             else
             {
-                throw new Exception("Book already exists.");
+                // publicationDate fails parse.
+                if (!DateTime.TryParse(publicationDate, out parsedPublicationdate))
+                {
+                    throw new Exception("Publication Date Not Valid");
+                }
+                else
+                {
+                    //Business Logic====================================
+                }
             }
+            
+            Book newBook = new Book()
+            {
+                AuthorID = int.Parse(authorID),
+                Title = title.Trim(),
+                PublicationDate = DateTime.Parse(publicationDate)
+            };
+
+            context.Books.Add(newBook);
+            context.SaveChanges();
+            return newBook;           
         }
         public Book GetBookByID(string id)
         {
