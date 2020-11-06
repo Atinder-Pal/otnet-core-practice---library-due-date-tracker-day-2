@@ -152,7 +152,10 @@ namespace LibraryDueDateDay2.Controllers
                 }
                 else
                 {
-                    //Business Logic====================================
+                    if(parsedPublicationdate > DateTime.Today)
+                    {
+                        throw new Exception("Publication date can not be in future.");
+                    }
                 }
             }
             
